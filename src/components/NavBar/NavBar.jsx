@@ -1,16 +1,19 @@
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
+import { selectIsLoggedIn } from "../../redux/auth/selectorauth";
+import { logout } from "../../redux/auth/operationsAuth";
 // import { userLogout } from "../../redux/auth/slice";
 
 const NavBar = () => {
-  // const dispatch = useDispatch();
-  // const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector(selectIsLoggedIn);
   // const { isLoggedIn } = useSelector(state => state.auth);
 
-  // const handleLogout = () => {
-  //   dispatch(userLogout());
-  //   navigate("/");
-  // }
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
   return (
     <header
       style={{
@@ -39,8 +42,7 @@ const NavBar = () => {
           <h2>
             {" "}
             <NavLink
-              // to={isLoggedIn ? "/transactions" : "/"}
-              to="/"
+              to={isLoggedIn ? "/contacts" : "/"}
               style={{ textDecoration: "none", color: "unset" }}
             >
               My Contact App
@@ -54,25 +56,7 @@ const NavBar = () => {
             alignItems: "center",
           }}
         >
-           <>
-              <h3>
-                <NavLink
-                  to="/register"
-                  style={{ textDecoration: "none", color: "unset" }}
-                >
-                  Register
-                </NavLink>
-              </h3>
-              <h3>
-                <NavLink
-                  to="/login"
-                  style={{ textDecoration: "none", color: "unset" }}
-                >
-                  Login
-                </NavLink>
-              </h3>
-              </>
-          {/* {isLoggedIn ? (
+          {isLoggedIn ? (
             <h3 onClick={handleLogout} style={{ cursor: "pointer" }}>
               Logout
             </h3>
@@ -95,7 +79,7 @@ const NavBar = () => {
                 </NavLink>
               </h3>
             </>
-          )} */}
+          )}
         </div>
       </nav>
     </header>
