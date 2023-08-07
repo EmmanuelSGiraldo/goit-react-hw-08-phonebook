@@ -1,19 +1,23 @@
-import { addContact } from "../../redux/operations";
+// import { addContact } from "../../redux/operations";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllContacts } from "../../redux/selectors";
+// import { selectAllContacts } from "../../redux/selectors";
 import { Button, TextField } from "@mui/material";
 import css from "./ContactForm.module.css";
+import { selectContacts, selectIsLoading } from "../../redux/contacts/selectorContacts";
+import { addContact } from "../../redux/contacts/contactOperations";
 
 const ContactForm = () => {
   // Obtenemos el enlace a la función de envío de acciones
   const dispatch = useDispatch();
+  const contacts = useSelector(selectContacts);
+  const isLoading = useSelector(selectIsLoading);
   // Obtener un array con los contactos del estado de Redux
-  const contacts = useSelector(selectAllContacts);
+  // const contacts = useSelector(selectAllContacts);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const form = event.currentTarget;
-    let contactForAdd = { name: form.name.value, phone: form.phone.value };
+    let contactForAdd = { name: form.name.value, number: form.number.value };
     console.log("Form ",contactForAdd)
     if (contacts.some(({ name }) => name === contactForAdd.name)) {
       alert(`${contactForAdd.name} is already in contacts`);
@@ -39,7 +43,7 @@ const ContactForm = () => {
         />
         <TextField
           type="tel"
-          name="phone"
+          name="number"
           pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required

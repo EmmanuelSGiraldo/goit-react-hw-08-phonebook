@@ -1,19 +1,32 @@
-import { selectAllContacts, SelectFilter } from "../../redux/selectors";
-import { deleteContact } from "../../redux/operations";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import DeleteIcon from "@mui/icons-material/Delete";
-import css from "./ContactList.module.css";
 import { IconButton } from "@mui/material";
-import { useEffect } from "react";
-import { fetchContacts } from "../../redux/operations";
+import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
+import { EditModal } from "../Modal/Modal";
+import {
+  selectContacts,
+  selectVisibleContacts,
+} from "../../redux/contacts/selectorContacts";
+import {
+  deleteContact,
+  fetchContacts,
+} from "../../redux/contacts/contactOperations";
+import { SelectFilter } from "../../redux/filter/selectorFilter";
+import css from "./ContactList.module.css";
 
-export const ContactList = () => {
-  const contacts = useSelector(selectAllContacts);
+const ContactList = ({ id, name, number }) => {
+  const contacts = useSelector(selectContacts);
   const filter = useSelector(SelectFilter);
   const dispatch = useDispatch();
+  const [showModalId, setShowModalId] = useState(null);
 
   const deleteId = (contacts) => {
     dispatch(deleteContact(contacts));
+  };
+
+  const toggleModal = (contactId) => {
+    setShowModalId(contactId === showModalId ? null : contactId);
   };
 
   const filterArr = (fArr) => {
@@ -23,25 +36,46 @@ export const ContactList = () => {
 
   useEffect(() => {
     dispatch(fetchContacts());
-  },[dispatch])
+  }, [dispatch]);
 
   return (
     <div>
       <ul>
-        {filterArr(contacts)?.map(({ name, phone, id }) => {
+        {filterArr(contacts)?.map(({ name, number, id }) => {
           return (
             <div className={css["container-contact"]} key={id}>
               <li>
-                {name}: {phone}
+                {name}: {number}
               </li>
-              <IconButton
-                className={css["delete-contact"]}
-                data-id={id}
-                onClick={() => deleteId(id)}
-                edge="end"
-              >
-                <DeleteIcon />
-              </IconButton>
+              <div>
+                <IconButton
+                  className={css["delete-contact"]}
+                  data-id={id}
+                  onClick={() => deleteId(id)}
+                  edge="end"
+                >
+                  <DeleteIcon />
+                </IconButton>
+
+                <IconButton
+                  className={css["delete-contact"]}
+                  data-id={id}
+                  onClick={() => toggleModal(id)} // Pass the contact id to toggleModal
+                  edge="end"
+                >
+                  <EditIcon />
+                </IconButton>
+
+                {showModalId === id && ( // Only show the modal if showModalId matches the contact id
+                  <EditModal
+                    onClose={() => toggleModal(id)} // Pass the contact id to onClose
+                    id={id}
+                    name={name}
+                    number={number}
+                    isOpen={true}
+                  />
+                )}
+              </div>
             </div>
           );
         })}
