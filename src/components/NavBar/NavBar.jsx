@@ -3,14 +3,12 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { selectIsLoggedIn } from "../../redux/auth/selectorauth";
 import { logout } from "../../redux/auth/operationsAuth";
 import { useAuth } from "../../hooks";
-// import { userLogout } from "../../redux/auth/slice";
 
 const NavBar = () => {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isLoggedIn = useSelector(selectIsLoggedIn);
-  // const { isLoggedIn } = useSelector(state => state.auth);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -60,12 +58,10 @@ const NavBar = () => {
         >
           {isLoggedIn ? (
             <>
-              <p>
-                {user.name}
-              </p>
-            <h3 onClick={handleLogout} style={{ cursor: "pointer" }}>
-              Logout
-            </h3>
+              <p>{user.name}</p>
+              <h3 onClick={handleLogout} style={{ cursor: "pointer" }}>
+                Logout
+              </h3>
             </>
           ) : (
             <>

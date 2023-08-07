@@ -6,9 +6,8 @@ import {
 } from "../redux/contacts/selectorContacts";
 import { Container, Paper } from "@mui/material";
 import ContactForm from "../components/ContactForm/ContactForm";
-import Filter from "../components/Filter/Filter"
+import Filter from "../components/Filter/Filter";
 import ContactList from "../components/ContactList/ContactList";
-
 
 const Contacts = () => {
   const dispatch = useDispatch();
@@ -16,7 +15,6 @@ const Contacts = () => {
   const token = useSelector(selectToken);
   const items = useSelector(selectContacts);
   const isLoading = useSelector(selectIsLoading);
-  // const { isLoading, error } = useSelector((state) => state.contacts);
 
   return (
     <>
@@ -41,7 +39,7 @@ const Contacts = () => {
               Contacts
             </h2>
             <Filter />
-            {/* {isLoading && !error && <p>Feching data...</p>} */}
+
             <ContactList />
           </Paper>
         </Paper>

@@ -1,9 +1,7 @@
-.container-contact{
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    justify-content: space-between;
-    width: 350px;
+.container-contact {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: space-between;
+  width: 350px;
 }
-
-

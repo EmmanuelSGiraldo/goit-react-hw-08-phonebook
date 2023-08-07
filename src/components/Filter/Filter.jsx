@@ -4,9 +4,9 @@ import { setFilter } from "../../redux/filter/filterSlice";
 
 export const Filter = () => {
   const dispatch = useDispatch();
-  
+
   const setFilterValue = (event) => {
-    dispatch(setFilter(event.currentTarget.value.toUpperCase()))
+    dispatch(setFilter(event.currentTarget.value.toUpperCase()));
   };
 
   return (
@@ -20,5 +20,3 @@ export const Filter = () => {
 };
 
 export default Filter;
-
-
