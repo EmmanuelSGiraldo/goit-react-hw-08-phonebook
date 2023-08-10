@@ -1,8 +1,10 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { selectIsLoggedIn } from "../../redux/auth/selectorauth";
 import { logout } from "../../redux/auth/operationsAuth";
 import { useAuth } from "../../hooks";
+import { AppBar, Toolbar, Typography, Button, Link, Container, Grid } from "@mui/material";
 
 const NavBar = () => {
   const { user } = useAuth();
@@ -14,78 +16,82 @@ const NavBar = () => {
     dispatch(logout());
     navigate("/");
   };
+
   return (
-    <header
-      style={{
-        border: "1px solid black",
-        padding: "0 18px",
-      }}
-    >
-      <nav
-        style={{
-          maxWidth: 1200,
-          height: 50,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          margin: "0 auto",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            gap: 15,
-          }}
-        >
-          <h2>
-            {" "}
-            <NavLink
-              to={isLoggedIn ? "/contacts" : "/"}
-              style={{ textDecoration: "none", color: "unset" }}
-            >
-              My Contact App
-            </NavLink>
-          </h2>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            gap: 15,
-            alignItems: "center",
-          }}
-        >
-          {isLoggedIn ? (
-            <>
-              <p>{user.name}</p>
-              <h3 onClick={handleLogout} style={{ cursor: "pointer" }}>
-                Logout
-              </h3>
-            </>
-          ) : (
-            <>
-              <h3>
-                <NavLink
-                  to="/register"
-                  style={{ textDecoration: "none", color: "unset" }}
+    <AppBar position="static" sx={{ background: "#484441", maxWidth: "70%", margin: "0 auto" }}>
+      <Container maxWidth="lg">
+        <Toolbar>
+          <Grid container alignItems="center" justifyContent="space-between">
+            <Grid item>
+              <Typography variant="h6">
+                <Link
+                  component={NavLink}
+                  to={isLoggedIn ? "/contacts" : "/"}
+                  underline="none"
+                  color="inherit"
+                  sx={{
+                    textDecoration: "none",
+                    transition: "color 0.3s",  // Agregar una transición suave
+                    "&:hover": {
+                      color: "#3498db",  // Cambiar el color de texto en hover
+                    },
+                  }}
                 >
-                  Register
-                </NavLink>
-              </h3>
-              <h3>
-                <NavLink
-                  to="/login"
-                  style={{ textDecoration: "none", color: "unset" }}
-                >
-                  Login
-                </NavLink>
-              </h3>
-            </>
-          )}
-        </div>
-      </nav>
-    </header>
+                  PHONEBOOK
+                </Link>
+              </Typography>
+            </Grid>
+            <Grid item>
+              {isLoggedIn ? (
+                <>
+                  <Typography variant="subtitle1" sx={{ color: "#FFFFFF" }}>
+                    {user.name}
+                  </Typography>
+                  <Button
+                    onClick={handleLogout}
+                    color="primary"
+                    sx={{ cursor: "pointer", color: "#3498db" }}
+                  >
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    component={NavLink}
+                    to="/register"
+                    color="inherit"
+                    sx={{
+                      textDecoration: "none",
+                      transition: "color 0.3s",  // Agregar una transición suave
+                      "&:hover": {
+                        color: "#3498db",  // Cambiar el color de texto en hover
+                      },
+                    }}
+                  >
+                    Register
+                  </Button>
+                  <Button
+                    component={NavLink}
+                    to="/login"
+                    color="inherit"
+                    sx={{
+                      textDecoration: "none",
+                      transition: "color 0.3s",  // Agregar una transición suave
+                      "&:hover": {
+                        color: "#3498db",  // Cambiar el color de texto en hover
+                      },
+                    }}
+                  >
+                    Login
+                  </Button>
+                </>
+              )}
+            </Grid>
+          </Grid>
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 

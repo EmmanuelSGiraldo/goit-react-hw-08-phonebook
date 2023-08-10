@@ -2,15 +2,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectIsAuthLoading } from "../redux/auth/selectorauth";
 import { login } from "../redux/auth/operationsAuth";
 import { Notify } from "notiflix";
-// import { clearError, clearFormError, setFormError } from "../redux/auth/slice";
-// import { login } from "../redux/auth/operations";
-// import { useEffect } from "react";
-// import toast from "react-hot-toast";
+import {
+  Button,
+  Card,
+  CardContent,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 const Login = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectIsAuthLoading);
-  // const { formError, error, isLoading } = useSelector((state) => state.auth);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -22,26 +24,12 @@ const Login = () => {
 
     if (email.value && password.value) {
       dispatch(login(credentials));
-      Notify.success("Congrats You have been logged");
+      Notify.success("Congrats! You have been logged in.");
     } else {
-      Notify.failure("Verify the provided info and try again.");
+      Notify.failure("Please verify the provided information and try again.");
     }
     console.log(credentials);
   };
-
-  // useEffect(() => {
-  //   if (formError) {
-  //     toast.error(formError);
-  //     dispatch(clearFormError());
-  //   }
-  // }, [dispatch, formError]);
-
-  // useEffect(() => {
-  //   if (error) {
-  //     toast.error(error);
-  //     dispatch(clearError());
-  //   }
-  // }, [dispatch, error]);
 
   return (
     <div
@@ -51,34 +39,57 @@ const Login = () => {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
+        background: "#F5F5F5", 
       }}
     >
-      <h1>Login</h1>
-      <form
-        onSubmit={handleLogin}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          border: "1px solid black",
-          padding: 15,
+      <Typography variant="h4" gutterBottom>
+        Login
+      </Typography>
+      <Card
+        sx={{
+          width: "50%",
+          backgroundColor: "white",
+          borderRadius: "8px",
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
         }}
       >
-        <label
-          style={{ display: "flex", flexDirection: "column", marginTop: 10 }}
-        >
-          Email
-          <input type="email" name="email" />
-        </label>
-        <label
-          style={{ display: "flex", flexDirection: "column", marginTop: 10 }}
-        >
-          Password
-          <input type="password" name="password" />
-        </label>
-        <button type="submit" style={{ marginTop: 20 }} disabled={isLoading}>
-          {isLoading ? "Loading..." : "Send"}
-        </button>
-      </form>
+        <CardContent>
+          <form onSubmit={handleLogin}>
+            <TextField
+              label="Email"
+              name="email"
+              type="email"
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              required
+            />
+            <TextField
+              label="Password"
+              name="password"
+              type="password"
+              variant="outlined"
+              margin="normal"
+              fullWidth
+              required
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              style={{
+                marginTop: "20px",
+                backgroundColor: "#484441",
+                color: "white",
+              }}
+              disabled={isLoading}
+            >
+              {isLoading ? "Loading..." : "Send"}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   );
 };
