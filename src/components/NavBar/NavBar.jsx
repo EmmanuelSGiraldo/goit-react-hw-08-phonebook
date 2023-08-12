@@ -37,7 +37,7 @@ const NavBar = () => {
                     },
                   }}
                 >
-                  PHONEBOOK
+                  Home
                 </Link>
               </Typography>
             </Grid>
