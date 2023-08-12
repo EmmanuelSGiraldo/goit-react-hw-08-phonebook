@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { register } from "../redux/auth/operationsAuth";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
 import { selectIsAuthLoading } from "../redux/auth/selectorauth";

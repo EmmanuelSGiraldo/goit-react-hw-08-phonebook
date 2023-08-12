@@ -1,11 +1,9 @@
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, TextField } from "@mui/material";
-import css from "./ContactForm.module.css";
-import {
-  selectContacts,
-  selectIsLoading,
-} from "../../redux/contacts/selectorContacts";
+import { selectContacts, selectIsLoading } from "../../redux/contacts/selectorContacts";
 import { addContact } from "../../redux/contacts/contactOperations";
+import { Alert } from "@mui/material";
 
 const ContactForm = () => {
   const dispatch = useDispatch();
@@ -18,7 +16,8 @@ const ContactForm = () => {
     let contactForAdd = { name: form.name.value, number: form.number.value };
     console.log("Form ", contactForAdd);
     if (contacts.some(({ name }) => name === contactForAdd.name)) {
-      alert(`${contactForAdd.name} is already in contacts`);
+      // Usar una alerta de MUI en lugar de un alert del navegador
+      Alert.error(`${contactForAdd.name} is already in contacts`);
       return;
     }
     dispatch(addContact(contactForAdd));
@@ -26,8 +25,16 @@ const ContactForm = () => {
   };
 
   return (
-    <div className={css["form-container"]}>
-      <form className={css["contact-form"]} onSubmit={handleSubmit}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+        marginTop: "20px",
+      }}
+    >
+      <form onSubmit={handleSubmit} style={{ width: "60%", maxWidth: "500px" }}>
         <TextField
           type="text"
           name="name"
@@ -38,6 +45,7 @@ const ContactForm = () => {
           variant="outlined"
           size="small"
           fullWidth
+          style={{ marginBottom: "10px" }}
         />
         <TextField
           type="tel"
@@ -49,16 +57,24 @@ const ContactForm = () => {
           variant="outlined"
           size="small"
           fullWidth
+          style={{ marginBottom: "10px" }}
         />
-        <div>
-          <Button
-            className={css["add-contact"]}
-            type="submit"
-            variant="outlined"
-          >
-            Add contact
-          </Button>
-        </div>
+        <Button
+          type="submit"
+          variant="contained"
+          fullWidth
+          style={{
+            marginTop: "20px",
+            backgroundColor: "#888888", // Cambio del color de fondo a un tono de gris
+            color: "white",
+            minWidth: "120px",
+            maxWidth: "200px",
+            fontSize: "16px",
+          }}
+          disabled={isLoading}
+        >
+          {isLoading ? "Loading..." : "Add contact"}
+        </Button>
       </form>
     </div>
   );
